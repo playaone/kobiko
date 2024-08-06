@@ -3,6 +3,9 @@
     margin: 0;
     box-sizing: border-box;
 }
+body{
+    max-width: 450px;
+}
 a{
     text-decoration: none;
     color: inherit;
@@ -78,17 +81,16 @@ footer.footer div{
     padding: 0;
     margin: 0;
 }
-footer.footer .home.active{
-    color: whitesmoke;
-    height: 70px;
-    width: 70px;
-}
 footer.footer .drinks{
    margin-top: -10px;
 }
 footer.footer .drinks.active{
     background-color: #FF9B4F;
 }
-footer.footer .menu.active{
+footer.footer img{
+    height: 50px;
+    width: 50px;
+}
+footer.footer .active img{
     color: #FF9B4F;
 }
