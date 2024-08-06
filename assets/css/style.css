@@ -3,6 +3,10 @@
     margin: 0;
     box-sizing: border-box;
 }
+a{
+    text-decoration: none;
+    color: inherit;
+}
 .row{
     margin: 0;
     border: 0;
@@ -28,4 +32,63 @@
     height: 230px;
     margin: 0;
     padding: 0;
+}
+.page-banner{
+    height: 230px;
+    width: 100%;
+    background: url('../images/banner/about.png') center no-repeat;
+    background-size: cover;
+}
+.about-container {
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+.about-container .logo-div{
+    height: 120px;
+    width: 120px;
+    margin-top: -15%;
+}
+.about-container .brand-logo{
+    width: 110px;
+    height: 110px;
+}
+.about-container article p{
+    font-size: 14px;
+    padding: 10px 50px;
+}
+.about-container p{
+    font-size: 12px;
+}
+.cards img{
+    height: 90px;
+    padding: 0;
+    margin: 0;
+}
+footer.footer{
+    padding-top: 5px;
+    height: 70px;
+    background-color: #323232;
+    font-size: 40px;
+}
+
+footer.footer div{
+    height: 70px;
+    width: 70px;
+    padding: 0;
+    margin: 0;
+}
+footer.footer .home.active{
+    color: whitesmoke;
+    height: 70px;
+    width: 70px;
+}
+footer.footer .drinks{
+   margin-top: -10px;
+}
+footer.footer .drinks.active{
+    background-color: #FF9B4F;
+}
+footer.footer .menu.active{
+    color: #FF9B4F;
 }
