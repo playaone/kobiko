@@ -5,6 +5,13 @@
 }
 body{
     max-width: 450px;
+    margin: 0 auto;
+    position: relative;
+    font-family: Manrope;
+
+}
+.wrapper{
+    background-color: whitesmoke;
 }
 a{
     text-decoration: none;
@@ -68,11 +75,46 @@ a{
     padding: 0;
     margin: 0;
 }
+
+.menu-nav{
+    background-color: #fff;
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.41);
+}
+.menu-nav nav{
+    margin: 0;
+    padding: 0;
+}
+.menu-nav .nav-links{
+    display: inline-block;
+    padding: 5px 15px 5px 0;
+    margin-right: 20px;
+    text-transform: uppercase;
+}
+.menu-nav .active{
+    font-weight: 600;
+    border-bottom: 1px solid #ccc;
+}
+.menu-nav nav::-webkit-scrollbar{
+    display: none;
+}
+.card-text{
+    font-size: 12px;
+    margin: 0;
+    font-weight: 600;
+}
+
+
+
+
+
 footer.footer{
-    padding-top: 5px;
     height: 70px;
     background-color: #323232;
     font-size: 40px;
+    width: 450px;
+    margin: 0 auto;
+    border-radius: 20px 20px 0 0;
 }
 
 footer.footer div{
