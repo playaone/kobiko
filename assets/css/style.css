@@ -8,7 +8,6 @@ body{
     margin: 0 auto;
     position: relative;
     font-family: Manrope;
-
 }
 .wrapper{
     background-color: whitesmoke;
@@ -98,10 +97,26 @@ a{
 .menu-nav nav::-webkit-scrollbar{
     display: none;
 }
+.menu-cards{
+    max-height: 80vh;
+    overflow-y: scroll;
+}
+.menu-cards::-webkit-scrollbar{
+    display: none;
+}
 .card-text{
     font-size: 12px;
     margin: 0;
     font-weight: 600;
+}
+
+
+/* hotel */
+
+.hotel-container .card-footer .pills .rounded-pill{
+    font-size: 10px;
+    letter-spacing: 1px;
+    font-weight: bold;
 }
 
 
@@ -112,7 +127,7 @@ footer.footer{
     height: 70px;
     background-color: #323232;
     font-size: 40px;
-    width: 450px;
+    max-width: 450px;
     margin: 0 auto;
     border-radius: 20px 20px 0 0;
 }
