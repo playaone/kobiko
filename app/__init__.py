@@ -33,9 +33,11 @@ def create_app():
     
     from app.admin.routes import admin
     from app.errors.handlers import errors
+    from app.public.routes import public
     
     app.register_blueprint(admin)
     app.register_blueprint(errors)
+    app.register_blueprint(public)
     
     
     with app.app_context():

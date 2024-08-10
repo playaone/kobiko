@@ -2,7 +2,6 @@ from app import db, loginManager
 from flask import current_app as app
 from flask_login import UserMixin
 from itsdangerous import serializer
-import datetime
 
 # decorted function
 @loginManager.user_loader
@@ -18,7 +17,7 @@ class User(db.Model, UserMixin):
     firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    type = db.Column(db.String(12), nullable=True, default='customer')
+    type = db.Column(db.String(12), nullable=True, default='editor')
     posts = db.relationship('Product', backref='author', lazy=True)
     
     def get_reset_token(self, expires_sec=1800):
@@ -41,11 +40,25 @@ class User(db.Model, UserMixin):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
-    products = db.relationship('Product', backref='category', lazy=True, cascade="all, delete")
     
     def __str__(self):
         return self.title
      
+    
+class Room(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    discount = db.Column(db.Integer, nullable=True)
+    images = db.relationship('Room_Image', backref='room', lazy=True)
+    
+
+class Room_image(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(100))
+    room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
+    
     
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -53,27 +66,10 @@ class Product(db.Model):
     price = db.Column(db.Float, nullable=False)
     image = db.Column(db.String(100))
     description = db.Column(db.Text, nullable=False)
-    tags = db.Column(db.String(200), nullable=False)
-    discount = db.Column(db.Integer, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     
-class Order(db.Model):
+
+class Menu(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    transaction_id = db.Column(db.String(20), nullable=False)
-    products = db.Column(db.Text(), nullable=False)
-    firstname = db.Column(db.String(100), nullable=False)
-    lastname = db.Column(db.String(100), nullable=False)
-    amount = db.Column(db.Integer(), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
-    phone = db.Column(db.String(20), nullable=False)
-    address = db.Column(db.String(250), nullable=False)
-    city = db.Column(db.String(50), nullable=False)
-    state = db.Column(db.String(50), nullable=False)
-    status = db.Column(db.String(50), nullable=False, default='pending')
-    status_code = db.Column(db.String(50), nullable=False)
-    authorization_url = db.Column(db.String(50), nullable=False)
-    access_code = db.Column(db.String(50), nullable=False)
-    message = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.Text(), nullable=False)
-    date = db.Column(db.DateTime(), default=datetime.datetime.now())
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)

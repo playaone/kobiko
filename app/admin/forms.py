@@ -1,13 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DecimalField, TextAreaField, FileField, SubmitField, SelectField, EmailField, TelField, PasswordField
+from wtforms import StringField, DecimalField, TextAreaField, SubmitField, SelectField, EmailField, TelField, PasswordField, MultipleFileField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, Email
-from wtforms_alchemy import QuerySelectField
+from wtforms_alchemy import QuerySelectMultipleField
 from flask_wtf.file import FileField, FileAllowed, FileRequired, FileSize
-from app.models import Category, User
+from app.models import User
 
 
 class AddUserForm(FlaskForm):
     username = StringField('Username', validators=[Length(min=4, max=30), DataRequired()])
+    type = SelectField('Username', validators=[DataRequired()], choices=['Staff', 'Admin'])
     firstname = StringField('First name', validators=[Length(min=2, max=30), DataRequired()])
     lastname = StringField('Last Name', validators=[Length(min=2, max=30), DataRequired()])
     email = StringField('Email Address', validators=[Email(), DataRequired()])
@@ -28,7 +29,7 @@ class AddUserForm(FlaskForm):
 
 class UpdateUserForm(FlaskForm):
     username = StringField('Username', validators=[Length(min=4, max=30), DataRequired()])
-    type = SelectField('Username', validators=[DataRequired()], choices=['Customer', 'Staff', 'Admin'])
+    type = SelectField('Username', validators=[DataRequired()], choices=['Staff', 'Admin'])
     firstname = StringField('First name', validators=[Length(min=2, max=30), DataRequired()])
     lastname = StringField('Last Name', validators=[Length(min=2, max=30), DataRequired()])
     email = EmailField('Email Address', validators=[Email(), DataRequired()])
@@ -42,16 +43,35 @@ class LoginUserForm(FlaskForm):
     submit = SubmitField('SIGN IN')
     
 
+class AddRoomForm(FlaskForm):
+    name = StringField('Title', validators=[DataRequired()])
+    price = DecimalField('Product Price', validators=[DataRequired()])
+    discount = DecimalField('Product Price', validators=[DataRequired()])
+    description = TextAreaField('Product Description')
+    image_file = MultipleFileField('Images', validators=[FileRequired(), FileAllowed(['.png', '.jpg']), FileSize(max_size=20000000, message='File size too large')])
+    submit = SubmitField('Add')
+    
+
 class AddProductForm(FlaskForm):
-    name = StringField('Product Name', validators=[DataRequired()])
-    tags = StringField('Tags', validators=[DataRequired()])
-    category = QuerySelectField('Category', validators=[DataRequired()])
+    name = StringField('Title', validators=[DataRequired()])
+    category = QuerySelectMultipleField('Category', validators=[DataRequired()])
     price = DecimalField('Product Price', validators=[DataRequired()])
     description = TextAreaField('Product Description')
-    image_file = FileField('Product Images Upload', validators=[FileRequired(), FileSize(max_size=20000000, message='File size too large')])
-    submit = SubmitField('SAVE')
+    image_file = FileField('Images', validators=[FileRequired(), FileAllowed(['.png', '.jpg']), FileSize(max_size=20000000, message='File size too large')])
+    submit = SubmitField('Add')
+
+
+class UpdateProductForm(FlaskForm):
+    name = StringField('Title', validators=[DataRequired()])
+    category = QuerySelectMultipleField('Category', validators=[DataRequired()])
+    price = DecimalField('Product Price', validators=[DataRequired()])
+    description = TextAreaField('Product Description')
+    image_file = FileField('Images', validators=[FileRequired(),FileAllowed(['.png', '.jpg']), FileSize(max_size=20000000, message='File size too large')])
+    submit = SubmitField('Save')
+    
             
     
 class AddCategoryForm(FlaskForm):
     title = StringField('Category Title', validators=[DataRequired(), Length(min=4)])
     submit = SubmitField('SAVE')
+    

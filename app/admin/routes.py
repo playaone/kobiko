@@ -2,8 +2,8 @@ import json, logging
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, login_required, logout_user
 from app import db, bcrypt
-from app.models import Product, Category, User, Order
-from app.admin.forms import AddProductForm, AddCategoryForm, AddUserForm, LoginUserForm, UpdateUserForm
+from app.models import Product, Category, User, Room, Room_image, Menu
+from app.admin.forms import AddProductForm, AddCategoryForm, AddUserForm, LoginUserForm, UpdateUserForm, AddRoomForm, UpdateProductForm
 from app.admin.utils import upload_image
 from sqlalchemy import func
 
@@ -11,14 +11,10 @@ admin = Blueprint('admin', __name__)
 
 # ======================================================================================================================
 
-@admin.route('/')
 @admin.route('/admin/')
 @login_required
 def home():
-    orders_count = Order.query.count()
-    all_orders = Order.query.with_entities(func.sum(Order.amount).label('sum_amounts')).first()
-    avg_sales =  all_orders.sum_amounts / orders_count if orders_count > 0 and all_orders > 0 else 0
-    return render_template('admin/index.html', orders_count=orders_count, avg_sales=f'{avg_sales: .2f}')
+    return render_template('admin/index.html', title="Dashboard")
 
 
 @admin.route('/admin/register/', methods=['POST', 'GET'])
@@ -198,17 +194,11 @@ def add_product():
     form.category.query = Category.query.all()
     if form.validate_on_submit():
         image = upload_image(form.image_file.data)
-        product = Product(title=form.name.data,
-                          description=form.description.data,
-                          tags=form.tags.data,
-                          price=form.price.data,
-                          image=image,
-                          category=form.category.data,
-                          category_id=form.category.data.id,
-                          user_id=current_user.id,
-                          author = current_user
-                          )
+        product = Product(title=form.name.data, description=form.description.data, price=form.price.data, image=image, user_id=current_user.id, author = current_user)
         db.session.add(product)
+        for category in form.category.data:
+            menu = Menu(category_id=category.id, product_id=product.id)
+            db.session.add(menu)
         db.session.commit()
         flash('Product added!', category='success')
         return redirect(url_for('admin.add_product'))
@@ -254,66 +244,56 @@ def update_product():
 
 # ================================================================ All Orders ====================================================================
 
-@admin.route("/admin/orders")
+@admin.route('/admin/rooms')
 @login_required
-def all_orders():
-    orders = Order.query.order_by(Order.id.asc()).all()
-    return render_template('admin/orders.html', title="All Orders", orders=orders)
+def rooms():
+    rooms = Room.query.all()
+    if not rooms:
+        flash(message='No rooms added', category='danger')
+    
+    return render_template('admin/rooms.html', rooms=rooms, title='Hotel Rooms')
 
-# ================================================================ All Orders ====================================================================
 
-@admin.route("/admin/orders/pending")
+@admin.route('/admin/rooms/<int:id>')
 @login_required
-def pending_orders():
-    orders = Order.query.filter_by(status='pending').order_by(Order.id.asc()).all()
-    return render_template('admin/orders.html', title="All Orders", orders=orders)
+def get_room(id):
+    room = Room.query.get(id)
+    if not room:
+        flash(message='Invalid room id', category='danger')
+        return redirect(url_for('admin.rooms'))    
+    return render_template('admin/room.html', room=room, title=room.title)
 
 
-# ================================================================ All Orders ====================================================================
-
-@admin.route("/admin/orders/failed")
+@admin.route('/admin/rooms/<int:id>/delete', methods=['POST'])
 @login_required
-def failed_orders():
-    orders = Order.query.filter_by(status='failed').order_by(Order.id.asc()).all()
-    return render_template('admin/orders.html', title="All Orders", orders=orders)
-
-
-# ================================================================ All Orders ====================================================================
-
-@admin.route("/admin/orders/success")
-@login_required
-def successful_orders():
-    orders = Order.query.filter_by(status='success').order_by(Order.id.asc()).all()
-    return render_template('admin/orders.html', title="All Orders", orders=orders)
-
-
-# ================================================================ All Orders ====================================================================
-
-@admin.route("/admin/order/delete/<string:order_id>")
-@login_required
-def delete_order(order_id):
-    order = Order.query.filter_by(transaction_id=order_id).first()
-    if order:
-        db.session.delete(order)
-        db.session.commit()
-        flash(message=f"Order {order.transaction_id} deleted", category="success")
-    return redirect(request.referrer)
-
-
-# ================================================================ View Order ====================================================================
-
-@admin.route("/admin/order/view/<string:order_id>")
-@login_required
-def view_order(order_id):
-    order = Order.query.filter_by(transaction_id=order_id).first()
-    if order:
-        products_json = json.loads(order.products)
-        products = []
-        for p in products_json:
-            product = Product.query.get(p['productId'])
-            product.purchase_quantity = p['quantity']
-            product.cost = p['quantity'] * p['price']
-            products.append(product)
-        return render_template('admin/order-details.html', title="All Orders", order=order, products=products)
+def delete_room(id):
+    room = Room.query.get(id)
+    if room:
+        db.session.delete(room)
+        flash(message=f'{room.title} deleted', category='success')
     else:
-        return redirect(request.referrer)
+        flash(message='Invalid room id', category='danger')
+        
+    return redirect(url_for('admin.rooms'))
+        
+
+@admin.route('/admin/rooms/add')
+@login_required
+def add_room():
+    form = AddRoomForm()
+    if form.validate_on_submit():
+        room = Room(title=form.name.data, description=form.description.data, price=form.price.data, discount=form.discount.data)
+        db.session.add(room)
+        for image_file in form.image_file.data:
+            filename = upload_image(image_file)
+            if filename:
+                saved_image = Room_image(filename=filename, room_id=room.id, room=room)
+                db.session.add(saved_image)
+            else:
+                db.session.remove()
+        db.session.commit()
+        flash(message=f'{room.title} added', category='success')
+        return redirect(url_for('admin.add_room'))
+    return render_template('admin/room-add.html', title="Add Hotel Room", form=form)
+                
+            
