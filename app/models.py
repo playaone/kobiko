@@ -48,13 +48,14 @@ class Category(db.Model):
 class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
+    bed = db.Column(db.String(50), nullable=False, server_default="1 queen size bed")
     price = db.Column(db.Float, nullable=False)
     description = db.Column(db.Text, nullable=False)
-    discount = db.Column(db.Integer, nullable=True)
-    images = db.relationship('Room_Image', backref='room', lazy=True)
+    discount = db.Column(db.Float, nullable=True)
+    images = db.relationship('RoomImage', backref='room', lazy=True)
     
 
-class Room_image(db.Model):
+class RoomImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(100))
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
@@ -63,6 +64,7 @@ class Room_image(db.Model):
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
+    type = db.Column(db.String(15), nullable=False, server_default='Regular')
     price = db.Column(db.Float, nullable=False)
     image = db.Column(db.String(100))
     description = db.Column(db.Text, nullable=False)

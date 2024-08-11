@@ -89,6 +89,7 @@ a{
     padding: 5px 15px 5px 0;
     margin-right: 20px;
     text-transform: uppercase;
+    text-wrap: nowrap;
 }
 .menu-nav .active{
     font-weight: 600;

@@ -2,7 +2,7 @@ import json, logging
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, login_required, logout_user
 from app import db, bcrypt
-from app.models import Product, Category, User, Room, Room_image, Menu
+from app.models import Product, Category, User, Room, RoomImage, Menu
 from app.admin.forms import AddProductForm, AddCategoryForm, AddUserForm, LoginUserForm, UpdateUserForm, AddRoomForm, UpdateProductForm
 from app.admin.utils import upload_image
 from sqlalchemy import func
@@ -192,17 +192,21 @@ def add_category():
 def add_product():
     form = AddProductForm()
     form.category.query = Category.query.all()
-    if form.validate_on_submit():
-        image = upload_image(form.image_file.data)
-        product = Product(title=form.name.data, description=form.description.data, price=form.price.data, image=image, user_id=current_user.id, author = current_user)
-        db.session.add(product)
-        for category in form.category.data:
-            menu = Menu(category_id=category.id, product_id=product.id)
-            db.session.add(menu)
-        db.session.commit()
-        flash('Product added!', category='success')
-        return redirect(url_for('admin.add_product'))
-    return render_template('admin/product_add.html', title='Add Product', form=form)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            image = upload_image(form.image_file.data)
+            product = Product(title=form.name.data, description=form.description.data, price=form.price.data, image=image, user_id=current_user.id, author=current_user)
+            db.session.add(product)
+            db.session.commit()
+            for category in form.category.data:
+                menu = Menu(category_id=category.id, product_id=product.id)
+                db.session.add(menu)
+            db.session.commit()
+            flash('Product added!', category='success')
+            return redirect(url_for('admin.add_product'))
+        else:
+            flash(f'Form validation failed! category = {form.category.data}, price={form.price.data}, description={form.description.data}, title={form.name.data} image={form.image_file.data}', category='success')
+    return render_template('admin/product-add.html', title='Add Product', form=form)
 
 # ==================================================================================================================================
 
@@ -244,16 +248,6 @@ def update_product():
 
 # ================================================================ All Orders ====================================================================
 
-@admin.route('/admin/rooms')
-@login_required
-def rooms():
-    rooms = Room.query.all()
-    if not rooms:
-        flash(message='No rooms added', category='danger')
-    
-    return render_template('admin/rooms.html', rooms=rooms, title='Hotel Rooms')
-
-
 @admin.route('/admin/rooms/<int:id>')
 @login_required
 def get_room(id):
@@ -277,7 +271,7 @@ def delete_room(id):
     return redirect(url_for('admin.rooms'))
         
 
-@admin.route('/admin/rooms/add')
+@admin.route('/admin/rooms/add', methods=['GET', 'POST'])
 @login_required
 def add_room():
     form = AddRoomForm()
@@ -287,7 +281,7 @@ def add_room():
         for image_file in form.image_file.data:
             filename = upload_image(image_file)
             if filename:
-                saved_image = Room_image(filename=filename, room_id=room.id, room=room)
+                saved_image = RoomImage(filename=filename, room_id=room.id, room=room)
                 db.session.add(saved_image)
             else:
                 db.session.remove()
@@ -295,5 +289,13 @@ def add_room():
         flash(message=f'{room.title} added', category='success')
         return redirect(url_for('admin.add_room'))
     return render_template('admin/room-add.html', title="Add Hotel Room", form=form)
+
+
+@admin.route('/admin/rooms/')
+@login_required
+def rooms():
+    page = request.args.get('page', 1)
+    rooms = Room.query.paginate(page=page, per_page=15)
+    return render_template('admin/rooms.html', rooms=rooms, title='Hotel Rooms')
                 
             
