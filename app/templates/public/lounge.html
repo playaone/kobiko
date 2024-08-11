@@ -1,0 +1,30 @@
+{% extends 'public/layout.html' %}
+
+{% block content %}
+<div class="wrapper bg-black text-white container-fluid px-0">
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand fw-bold fs-1 text-white">Kobiko</div>
+      <div class="nav-link">
+        <i class="bi bi-list fs-1 fw-bold"></i>
+      </div>
+    </div>
+  </nav>
+  </header>
+  <main class="pb-5">
+    <div class="menu-container mb-5">
+      <div class="menu-header row align-items-center py-2 bg-dark">
+        <h4 class="fw-bold pb-2 mb-0 col-9">
+          LOUNGE
+        </h4>
+        <div class="col-3">
+          <img src="assets/images/lounge.png" class="w-100 p-0 m-0" alt="">
+        </div>
+      </div>
+
+      {% include 'public/menu.html' %}
+
+    </div>
+  </main>
+</div>
+{% endblock %}

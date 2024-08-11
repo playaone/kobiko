@@ -1,0 +1,39 @@
+<div class="container-fluid text-black menu-nav py-2">
+    <nav class="d-flex flex-nowrap overflow-x-scroll container" id="menu">
+        {% for category in categories %}
+        <a href="#{{ category.title.lower().strip() }}" class="nav-links">{{ category.title }}</a>
+        {% endfor %}
+    </nav>
+</div>
+
+<div class="menu-cards container" data-bs-spy="scroll" data-bs-target="#menu" data-bs-offset="0"
+    data-bs-smooth-scroll="true">
+    {% for category in categories %}
+        <div id="{{ category.title.strip() }}">
+            <h6 class="text-center">{{ category.title }}</h6>
+            {% for product in products %}
+                {% for key in menu %}
+                    {% if product.id == key.product_id and category.id == key.category_id %}
+                        <div class="card border-0 mb-3">
+                            <div class="row g-0 px-1 align-items-center">
+                                <div class="col-4">
+                                    <img src="{{ url_for('static', filename='images/product/' + product.image) }}" class="img-fluid rounded-3 w-100"
+                                        alt="...">
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body pt-1">
+                                        <h5 class="card-title my-0 py-0">{{ product.title }}</h5>
+                                        <p class="card-text"><small class="text-body-secondary">{{ product.description }}</small></p>
+                                        <p class="card-text">{{ product.description }}</p>
+                                        <h5 class="fw-bold m-0">&#8358;{{ product.price }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <hr>
+    {% endfor %}
+</div>

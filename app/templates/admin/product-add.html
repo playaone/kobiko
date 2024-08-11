@@ -1,0 +1,235 @@
+{% extends 'layout.html' %}  
+{% block title %}{{ title }}{% endblock title %}
+
+
+{% block styles %}
+<!--plugin css file -->
+<link rel="stylesheet" href="{{ url_for('static', filename='plugin/multi-select/css/multi-select.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='plugin/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='plugin/dropify/dist/css/dropify.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='plugin/datatables/responsive.dataTables.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='plugin/datatables/dataTables.bootstrap5.min.css') }}">
+{% endblock styles %}
+
+{% block content %}
+<div class="container-xxl">
+    
+    <form action="#" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="row align-items-center">
+            <div class="border-0 mb-4">
+                <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
+                    <h3 class="fw-bold mb-0">Products Add</h3>
+                    {{ form.submit(class="btn btn-primary btn-set-task w-sm-100 py-2 px-5 text-uppercase") }}
+                </div>
+            </div>
+        </div> <!-- Row end  -->  
+        
+        <div class="row g-3 mb-3">
+            <div class="col-xl-4 col-lg-4">
+                <div class="sticky-lg-top">
+                    <div class="card mb-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
+                            <h6 class="m-0 fw-bold">Pricing Info</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-12">
+                                    {{ form.price.label(class='form-label') }}
+                                    
+                                    {% if form.price.errors %}
+                                    {{ form.price(class='form-control form-control-lg is-invalid', value=form.price.data) }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.price.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    {{ form.price(class='form-control') }}
+                                    {% endif %}
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
+                            <h6 class="m-0 fw-bold">Categories</h6>
+                        </div>
+                        <div class="card-body">
+                            {{ form.category.label(class='form-label') }}
+
+                            {{ form.category(class='form-select', size="3") }}
+                            {% if form.category.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.category.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
+                            <h6 class="m-0 fw-bold">Room Type</h6>
+                        </div>
+                        <div class="card-body">
+                            {{ form.type.label(class='form-label') }}
+
+                            {{ form.type(class='form-select', size="3") }}
+                            {% if form.type.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.type.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="col-xl-8 col-lg-8">
+                <div class="card mb-3">
+                    <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                        <h6 class="mb-0 fw-bold ">Images</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-12">
+                                {{ form.image_file.label(class='form-label') }}
+                                    <small class="d-block text-muted mb-2">Only landscape or square images, 2M max and 2000px max-height.</small>
+                                {{ form.image_file(class='dropify', id="input-file-to-destroy", required='', data_allowed_formats="landscape square", data_max_file_size="2M", data_max_height="2000") }}
+                                {% if form.image_file.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.image_file.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                        <h6 class="mb-0 fw-bold ">Basic information</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 align-items-center">
+                            <div class="row g-3 align-items-center">
+                                
+                                <div class="col-md-12 mb-3">
+                                    {{ form.name.label(class='form-label') }}
+                                    
+                                    {% if form.name.errors %}
+                                    {{ form.name(class='form-control is-invalid', value=form.name.data) }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.name.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    {{ form.name(class='form-control') }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-12">
+                                    {{ form.description.label(class='form-label') }}
+                                    
+                                    {% if form.description.errors %}
+                                    {{ form.description(class='is-invalid form-control', value='form.description.data') }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.description.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    {{ form.description(class='form-control') }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- Row end  --> 
+        
+    </form>
+    
+    
+</div> 
+{% endblock content %}
+
+
+{% block scripts %}
+
+
+<!-- Jquery Core Js -->      
+<script src="{{ url_for('static', filename='bundles/libscripts.bundle.js' )}}"></script>
+
+<!-- Jquery Plugin -->  
+<script src="{{ url_for('static', filename='js/ckeditor.js' )}}"></script>
+<script src="{{ url_for('static', filename='plugin/multi-select/js/jquery.multi-select.js' )}}"></script>
+<script src="{{ url_for('static', filename='plugin/bootstrap-tagsinput/bootstrap-tagsinput.js' )}}"></script>
+<script src="{{ url_for('static', filename='bundles/dropify.bundle.js' )}}"></script>
+<script src="{{ url_for('static', filename='bundles/dataTables.bundle.js' )}}"></script>
+
+<!-- Jquery Page Js -->   
+<script src="{{ url_for('static', filename='js/template.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        //Ch-editer
+        ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+        //Datatable
+        $('#myCartTable')
+        .addClass( 'nowrap' )
+        .dataTable( {
+            responsive: true,
+            columnDefs: [
+            { targets: [-1, -3], className: 'dt-body-right' }
+            ]
+        });
+        $('.deleterow').on('click',function(){
+            var tablename = $(this).closest('table').DataTable();  
+            tablename
+            .row( $(this)
+            .parents('tr') )
+            .remove()
+            .draw();
+            
+        } );
+        //Multiselect
+        $('#optgroup').multiSelect({ selectableOptgroup: true });
+    });
+    
+    $(function() {
+        $('.dropify').dropify();
+        
+        var drEvent = $('#dropify-event').dropify();
+        drEvent.on('dropify.beforeClear', function(event, element) {
+            return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+        });
+        
+        drEvent.on('dropify.afterClear', function(event, element) {
+            alert('File deleted');
+        });
+        
+        $('.dropify-fr').dropify({
+            messages: {
+                default: 'Glissez-dÃ©posez un fichier ici ou cliquez',
+                replace: 'Glissez-dÃ©posez un fichier ou cliquez pour remplacer',
+                remove: 'Supprimer',
+                error: 'DÃ©solÃ©, le fichier trop volumineux'
+            }
+        });
+    });
+    
+</script>
+
+{% endblock scripts %}

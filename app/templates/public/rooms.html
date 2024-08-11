@@ -1,0 +1,72 @@
+{% extends 'public/layout.html' %}
+
+{% block content %}
+    <div class="wrapper container-fluid px-0 bg-light">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand d-block">
+                    <h2 class="navbar-brand fw-bold">Kobiko Palace</h2>
+                </div>
+                <div class="nav-link">
+                    <a href="{{ url_for('public.index')}}">
+                        <img src="{{ url_for('static', filename='images/Icons/Home.svg') }}" width="30px" alt="">
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <main>
+            <div class="hotel-container mb-5">
+                <div class="row">
+                    <div id="hotelCarousel" class="carousel slide">
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <img src="{{ url_for('static', filename='images/banner/hotel.png') }}" class="d-block w-100" alt="...">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#hotelCarousel" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#hotelCarousel" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                </div>
+                <div class="row my-4 container">
+                    {% for room in rooms %}
+                        <div class="card rounded-5 col-12 mx-auto mb-4">
+                            <div class="card-body row pt-3">
+                                <div class="col-8 px-0">
+                                    <h5 class="card-title fw-bolder mb-2 mt-0">
+                                        <a href="{{ url_for('public.room', id=room.id) }}">{{ room.title }}</a>
+                                    </h5>
+                                    <p class="fw-medium my-1 text-capitalize">Bed: {{room.bed}}</p>
+                                    <h6 class="fw-bold">
+                                        Price: &#8358;{{ room.price }}
+                                    </h6>
+                                    <h6 class="fw-medium">
+                                        Discounted: &#8358;{{ room.price }}
+                                    </h6>
+                                </div>
+                                <div class="col-4 px-0">
+                                    <img src="{{ url_for('static', filename='images/product/' + room.images[0].filename ) }}" class="w-100 image-fluid rounded-3" alt="">
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="room-features">
+                                    <span class="rounded-pill border border-1 d-inline-block py-1 px-2 mr-2 mb-1">Flat-Screen Tv</span>
+                                    <span class="rounded-pill border border-1 d-inline-block py-1 px-2 mr-2 mb-1">Air Conditioning</span>
+                                    <span class="rounded-pill border border-1 d-inline-block py-1 px-2 mr-2 mb-1">Refrigirator</span>
+                                    <span class="rounded-pill border border-1 d-inline-block py-1 px-2 mr-2 mb-1">Ensuite Bathroom</span>
+                                    <span class="rounded-pill border border-1 d-inline-block py-1 px-2 mr-2 mb-1">Electric Kettle</span>
+                                </div>
+                                <a href="{{ url_for('public.room', id=room.id) }}" class="btn btn-sm col-12 my-2 btn-primary">View Room</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}
