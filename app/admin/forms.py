@@ -10,7 +10,7 @@ class AddUserForm(FlaskForm):
     username = StringField('Username', validators=[Length(min=4, max=30), DataRequired()])
     firstname = StringField('First name', validators=[Length(min=2, max=30), DataRequired()])
     lastname = StringField('Last Name', validators=[Length(min=2, max=30), DataRequired()])
-    email = StringField('Email Address', validators=[Email(), DataRequired()])
+    email = EmailField('Email Address', validators=[Email(), DataRequired()])
     phone = TelField('Phone Number', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=30)])
     confirm_password = PasswordField('Confirm Password', validators=[EqualTo('password')])
@@ -37,7 +37,7 @@ class UpdateUserForm(FlaskForm):
        
 
 class LoginUserForm(FlaskForm):
-    email = EmailField('Email Address', validators=[Email(), DataRequired()])
+    email = StringField('Username/Email Address', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=30)])
     submit = SubmitField('SIGN IN')
     

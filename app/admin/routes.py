@@ -5,7 +5,7 @@ from app import db, bcrypt
 from app.models import Product, Category, User, Room, RoomImage, Menu
 from app.admin.forms import AddProductForm, AddCategoryForm, AddUserForm, LoginUserForm, UpdateUserForm, AddRoomForm, UpdateProductForm
 from app.admin.utils import upload_image
-from sqlalchemy import func
+from sqlalchemy import or_
 
 admin = Blueprint('admin', __name__)
 
@@ -36,15 +36,16 @@ def admin_login():
     if current_user.is_authenticated:
         return redirect(url_for('admin.home'))
     form = LoginUserForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user)
-            next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('admin.home'))
-        else:
-            flash('Invalid username/password', category='danger')
-            return redirect(url_for('admin.admin_login'))
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = User.query.filter(or_(User.email==form.email.data, User.username==form.email.data)).first()
+            if user and bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user)
+                next_page = request.args.get('next')
+                return redirect(next_page) if next_page else redirect(url_for('admin.home'))
+            else:
+                flash('Invalid username/password', category='danger')
+                return redirect(url_for('admin.admin_login'))
     return render_template('admin/auth-signin.html', title='Add User', form=form)
 
 
@@ -216,7 +217,7 @@ def view_product(product_id):
     product = Product.query.get(product_id)
     if not product:
         flash(message="Product not found!", category="warning")
-        return redirect(url_for('admin.home'))
+        return redirect(url_for('admin.all_products'))
     return render_template('admin/product-detail.html', title='Add Product', product=product)
 
 # =================================================================================================================================
@@ -224,19 +225,21 @@ def view_product(product_id):
 @admin.route('/admin/products/all/')
 @login_required
 def all_products():
-    products = Product.query.all()
-    categories = Category.query.all()
-    if not products:
-        flash(message="No product in the inventory!", category="warning")
-        return redirect(url_for('admin.home'))
-    return render_template('admin/product_list.html', title='Add Product', products=products, categories=categories)
+    products = Product.query.get()
+    categories = Category.query.get()
+    return render_template('admin/product-list.html', title='Add Product', categories=categories, products=products)
 
 # =================================================================================================================================
 
 @admin.route('/admin/product/delete/<product_id>')
 @login_required
 def delete_product(product_id):
-    return redirect(url_for('admin.home'))
+    product = Product.query.get(product_id)
+    if product:
+        db.session.delete(product)
+        db.session.commit()
+        flash(message="Product deleted!", Category="success")
+    return redirect(url_for('admin.all_products'))
 
 # ====================================================================================================================================
 
