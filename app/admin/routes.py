@@ -14,7 +14,11 @@ admin = Blueprint('admin', __name__)
 @admin.route('/admin/')
 @login_required
 def home():
-    return render_template('admin/index.html', title="Dashboard")
+    rooms = Room.query.count()
+    regular = Product.query.filter_by(type='Regular').count()
+    lounge = Product.query.filter_by(type='Lounge').count()
+    vip = Product.query.filter_by(type='VIP').count()
+    return render_template('admin/index.html', title="Dashboard", rooms=rooms, regular=regular, lounge=lounge, vip=vip)
 
 
 @admin.route('/admin/register/', methods=['POST', 'GET'])
@@ -225,8 +229,8 @@ def view_product(product_id):
 @admin.route('/admin/products/all/')
 @login_required
 def all_products():
-    products = Product.query.get()
-    categories = Category.query.get()
+    products = Product.query.all()
+    categories = Category.query.all()
     return render_template('admin/product-list.html', title='Add Product', categories=categories, products=products)
 
 # =================================================================================================================================

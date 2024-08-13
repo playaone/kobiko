@@ -1,102 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <title>Kobiko Menu</title>
-</head>
-<body>
-    <div class="wrapper container-fluid px-0 bg-light">
-        <header class="page-banner">
-            <nav class="navbar">
-                <div class="container">
-                    <div class="navbar-brand fw-bold"></div>
-                    <div class="nav-link">
-                        <i class="bi bi-list fs-1 fw-bold"></i>
-                    </div>
+{% extends "public/layout.html" %}
+{% block content %}
+<div class="wrapper container-fluid px-0 bg-light">
+    <header class="page-banner">
+        {% include 'public/nav.html'%}
+    </header>
+    <main class="pb-5">
+        <div class="about-container mb-5">
+            <div class="row">
+                <div class="mx-auto logo-div rounded-circle">
+                    <img src="assets/images//logo.png" alt="brand-logo" class="rounded-circle brand-logo">
                 </div>
-            </nav>
-        </header>
-        <main class="pb-5">
-            <div class="about-container mb-5">
-                <div class="row">
-                    <div class="mx-auto logo-div rounded-circle">
-                        <img src="assets/images//logo.png" alt="brand-logo" class="rounded-circle brand-logo">
-                    </div>                
-                </div>
-                <h1 class="brand fw-semibold text-center mt-3 mb-1">KOBIKO PALACE</h1>
-                <p class="text-center fs-5 rating">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
+            </div>
+            <h1 class="brand fw-semibold text-center mt-3 mb-1">KOBIKO PALACE</h1>
+            <p class="text-center fs-5 rating">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star"></i>
+            </p>
+            <div class="timing text-center">
+                <p class="mb-2">
+                    <i class="bi bi-clock mr-3"></i>
+                    Working Hours | <b>7:00AM - 10:00PM</b>
                 </p>
-                <div class="timing text-center">
-                    <p class="mb-2">
-                        <i class="bi bi-clock mr-3"></i>
-                        Working Hours | <b>7:00AM - 10:00PM</b>
-                    </p>
-                    <p class="mb-2">
-                        <i class="bi bi-alarm mr-3"></i>
-                        Avg Cooking Time | <b>15MINS</b>
-                    </p>
-                </div>
-                <article class="text-center">
-                    <p class="fw-medium">
-                        Welcome to Kobiko Palace - The Home of Relaxation. Indulge in a culinary journey with our diverse local and international dishes, dance the night away in our vibrant club, and unwind in our luxurious lodging with breathtaking views. Experience the perfect blend of relaxation and excitement at Kobiko Palace.
-                    </p>
-                </article>
-                <div class="contact text-center">
-                    <p class="mb-2">
-                        <i class="bi bi-geo-alt mr-3"></i> 
-                        Plot 4, behind LEA Prinary School, Kagini Village, Abuja, Abuja, Nigeria
-                    </p>
-                    <p class="mb-2">
-                        <a href="mailto:kobikopalace@gmail.com">
-                            <i class="bi bi-envelope-at mr-3"></i> 
-                            kobikopalace@gmail.com
-                        </a>
-                    </p>
-                    <p class="mb-2">
-                        <i class="bi bi-phone mr-3"></i> 
-                        <a href="tel:+2348080488888">+234 808 048 8888</a>,
-                        <a href="tel:+2348035587572">+234 803 558 7572</a>,
-                        <a href="tel:+234 903 750 6278">+234 903 750 6278</a>
-                    </p>
-                </div>
-                <div class="socials text-center fs-3 mb-3">
-                    <a href="facebook"><i class="bi bi-facebook"></i></a>
-                    <a href="facebook"><i class="bi bi-instagram"></i></a>
-                </div>
-                <div class="row gx-3 justify-content-center cards mb-4">
-                    <div class="col-5"><img src="assets/images/card/1.png" class="rounded-4" alt="kobiko image"></div>
-                    <div class="col-5"><img src="assets/images/card/2.png" class="rounded-4" alt="Kobiko image"></div>
-                </div>
+                <p class="mb-2">
+                    <i class="bi bi-alarm mr-3"></i>
+                    Avg Cooking Time | <b>15MINS</b>
+                </p>
             </div>
-        </main>
-        <footer class="footer fixed-bottom text-center d-flex justify-content-around">
-            <div class="home active">
-                <a href="/">
-                    <img src="assets/images/Icons/Home-active.svg" alt="homepage">
-                </a>
+            <article class="text-center">
+                <p class="fw-medium">
+                    Welcome to Kobiko Palace - The Home of Relaxation. Indulge in a culinary journey with our diverse
+                    local and international dishes, dance the night away in our vibrant club, and unwind in our
+                    luxurious lodging with breathtaking views. Experience the perfect blend of relaxation and excitement
+                    at Kobiko Palace.
+                </p>
+            </article>
+            <div class="contact text-center">
+                <p class="mb-2">
+                    <i class="bi bi-geo-alt mr-3"></i>
+                    Plot 4, behind LEA Prinary School, Kagini Village, Abuja, Abuja, Nigeria
+                </p>
+                <p class="mb-2">
+                    <a href="mailto:kobikopalace@gmail.com">
+                        <i class="bi bi-envelope-at mr-3"></i>
+                        kobikopalace@gmail.com
+                    </a>
+                </p>
+                <p class="mb-2">
+                    <i class="bi bi-phone mr-3"></i>
+                    <a href="tel:+2348080488888">+234 808 048 8888</a>,
+                    <a href="tel:+2348035587572">+234 803 558 7572</a>,
+                    <a href="tel:+234 903 750 6278">+234 903 750 6278</a>
+                </p>
             </div>
-            <div class="rounded-circle drinks active">
-                <a href="/drinks">
-                    <img src="assets/images/Icons/drinks.svg" alt="drinks">
-                </a>
+            <div class="socials text-center fs-3 mb-3">
+                <a href="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="facebook"><i class="bi bi-instagram"></i></a>
             </div>
-            <div class="menu active ">
-                <a href="/">
-                    <img src="assets/images/Icons/Menu-active.svg" alt="Menu">
-                </a>
+            <div class="row gx-3 justify-content-center cards mb-4">
+                <div class="col-5"><img src="assets/images/card/1.png" class="rounded-4" alt="kobiko image"></div>
+                <div class="col-5"><img src="assets/images/card/2.png" class="rounded-4" alt="Kobiko image"></div>
             </div>
-        </footer>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/script.js"></script>
-</body>
-</html>
+        </div>
+    </main>
+</div>
+{% endblock %}

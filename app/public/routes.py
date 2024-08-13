@@ -5,7 +5,8 @@ public = Blueprint('public', __name__)
 
 @public.route('/')
 def index():
-    return render_template('public/index.html', title="Kobiko Palace")
+    active='index'
+    return render_template('public/index.html', title="Kobiko Palace", active=active)
 
 
 @public.route('/vip/')
@@ -13,7 +14,8 @@ def vip():
     categories = Category.query.all()
     products = Product.query.filter_by(type='VIP').all()
     menu = Menu.query.all()
-    return render_template('public/vip.html', title="VIP", categories=categories, menu=menu, products=products)
+    active = 'vip'
+    return render_template('public/vip.html', title="VIP", categories=categories, menu=menu, products=products, active=active)
 
 
 @public.route('/regular/')
@@ -21,7 +23,8 @@ def regular():
     categories = Category.query.all()
     products = Product.query.filter_by(type='Regular').all()
     menu = Menu.query.all()
-    return render_template('public/regular.html', title="Regular", categories=categories, menu=menu, products=products)
+    active = 'regular'
+    return render_template('public/regular.html', title="Regular", categories=categories, menu=menu, products=products, active=active)
 
 
 @public.route('/lounge/')
@@ -29,18 +32,21 @@ def lounge():
     categories = Category.query.all()
     products = Product.query.filter_by(type='Lounge').all()
     menu = Menu.query.all()
-    return render_template('public/lounge.html', title="Lounge", categories=categories, menu=menu, products=products)
+    active = 'lounge'
+    return render_template('public/lounge.html', title="Lounge", categories=categories, menu=menu, products=products, active=active)
 
 
 @public.route('/about')
 def about():
-    return render_template('public/about.html', title="About Us")
+    active='about'
+    return render_template('public/about.html', title="About Us", active=active) 
 
 
 @public.route('/rooms')
 def rooms():
     rooms = Room.query.all()
-    return render_template('public/rooms.html', title="Hotel Rooms", rooms=rooms)
+    active='hotel'
+    return render_template('public/rooms.html', title="Hotel Rooms", rooms=rooms, active=active)
 
 
 @public.route('/rooms/<int:id>')
@@ -50,4 +56,5 @@ def room(id):
         flash(message='Invalid Room Id', category='Danger')
         return redirect('public.rooms')
     room = Room.query.get(id)
-    render_template('public/room.html', title="Hotel Rooms", room=room)
+    active = 'hotel'
+    render_template('public/room.html', title="Hotel Rooms", room=room, active=active)

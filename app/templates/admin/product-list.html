@@ -71,13 +71,12 @@
                                         <strong>${{ product.price }}</strong>
                                     </div>
                                     <div class="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                        <div class="text-muted small">Quantity in stock</div>
-                                        <strong>{{ product.quantity }}</strong>
-                                    </div>
-                                    <div class="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                        <div class="text-muted small">Ratings</div>
-                                        <strong><i class="icofont-star text-warning"></i>4.5 <span
-                                                class="text-muted">(145)</span></strong>
+                                        <form action="{{ url_for('admin.delete_product', product_id=product.id) }}" method="post">
+                                            <div class="text-muted small">Delete</div>
+                                            <button type="submit" class="btn">
+                                                <i class="icofont-trash text-danger"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

@@ -26,12 +26,12 @@
                 {% for room in rooms %}
                     <div class="card border-0 mb-1">
                         <div class="card-body d-flex align-items-center flex-column flex-md-row">
-                            <a href="{{ url_for('admin.room', id=room.id) }}">
+                            <a href="{{ url_for('admin.get_room', id=room.id) }}">
                                 <img class="w120 rounded img-fluid"
-                                    src="{{ url_for('static', filename='images/product/'+ room.images[0] ) }}" alt="">
+                                    src="{{ url_for('static', filename='images/product/'+ room.images[0].filename ) }}" alt="">
                             </a>
                             <div class="ms-md-4 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
-                                <a href="{{ url_for('admin.room', id=room.id) }}">
+                                <a href="{{ url_for('admin.get_room', id=room.id) }}">
                                     <h6 class="mb-3 fw-bold">{{ room.title }} <span
                                             class="text-muted small fw-light d-block">{{ room.bed }}</span>
                                     </h6>
@@ -50,6 +50,14 @@
                                         <div class="text-muted small">Ratings</div>
                                         <strong><i class="icofont-star text-warning"></i>4.5 <span
                                                 class="text-muted">(145)</span></strong>
+                                    </div>
+                                    <div class="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
+                                        <div class="text-muted small">Delete</div>
+                                        <form action="{{url_for('admin.delete_room', id=room.id)}}" method="post">
+                                            <strong>
+                                                <i class="icofont-trash text-danger"></i>
+                                            </strong>
+                                        </form>                                        
                                     </div>
                                 </div>
                             </div>
