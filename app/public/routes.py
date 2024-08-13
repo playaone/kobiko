@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, flash
+from flask import Blueprint, render_template, redirect, flash, url_for
 from app.models import Category, Menu, Room, Product
 
 public = Blueprint('public', __name__)
@@ -51,10 +51,10 @@ def rooms():
 
 @public.route('/rooms/<int:id>')
 def room(id):
-    room = ''
+    room = Room.query.get(id)
     if not room or room == '':
         flash(message='Invalid Room Id', category='Danger')
-        return redirect('public.rooms')
+        return redirect(url_for('public.rooms'))
     room = Room.query.get(id)
     active = 'hotel'
-    render_template('public/room.html', title="Hotel Rooms", room=room, active=active)
+    return render_template('public/room.html', title="Hotel Rooms", room=room, active=active)
