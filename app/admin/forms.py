@@ -54,6 +54,7 @@ class AddRoomForm(FlaskForm):
 
 class AddProductForm(FlaskForm):
     name = StringField('Title', validators=[DataRequired()])
+    options = StringField('Options', validators=[DataRequired()])
     category = QuerySelectMultipleField('Category', validators=[DataRequired()])
     type = SelectField('Product Type', validators=[DataRequired()], choices=['Regular', 'VIP', 'Lounge'])
     price = DecimalField('Product Price', validators=[DataRequired()])
@@ -64,6 +65,7 @@ class AddProductForm(FlaskForm):
 
 class UpdateProductForm(FlaskForm):
     name = StringField('Title', validators=[DataRequired()])
+    options = StringField('Options', validators=[DataRequired()])
     category = QuerySelectMultipleField('Category', validators=[DataRequired()])
     type = SelectField('Product Type', validators=[DataRequired()], choices=['Regular', 'VIP', 'Lounge'])
     price = DecimalField('Product Price', validators=[DataRequired()])

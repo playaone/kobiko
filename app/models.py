@@ -64,6 +64,7 @@ class RoomImage(db.Model):
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
+    options = db.Column(db.String(50))
     type = db.Column(db.String(15), nullable=False, server_default='Regular')
     price = db.Column(db.Float, nullable=False)
     image = db.Column(db.String(100))

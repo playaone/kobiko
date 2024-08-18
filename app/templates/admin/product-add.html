@@ -135,6 +135,22 @@
                                     {{ form.name(class='form-control') }}
                                     {% endif %}
                                 </div>
+
+                                <div class="col-md-12 mb-3">
+                                    {{ form.options.label(class='form-label') }}
+                                    
+                                    {% if form.options.errors %}
+                                    {{ form.options(class='form-control is-invalid', value=form.options.data, placeholder='Sausage, extra carrots, Extra Cheese') }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.options.errors %}
+                                        <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    {{ form.options(class='form-control') }}
+                                    {% endif %}
+                                </div>
+
                                 <div class="col-md-12">
                                     {{ form.description.label(class='form-label') }}
                                     

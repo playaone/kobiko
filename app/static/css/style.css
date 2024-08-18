@@ -75,6 +75,13 @@ a{
     margin: 0;
 }
 
+.truncate {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
 .menu-nav{
     background-color: #fff;
     margin-bottom: 30px;

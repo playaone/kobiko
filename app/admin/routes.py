@@ -200,7 +200,7 @@ def add_product():
     if request.method == 'POST':
         if form.validate_on_submit():
             image = upload_image(form.image_file.data)
-            product = Product(title=form.name.data, description=form.description.data, price=form.price.data, image=image, user_id=current_user.id, author=current_user)
+            product = Product(title=form.name.data, options=form.options.data, description=form.description.data, price=form.price.data, image=image, user_id=current_user.id, author=current_user)
             db.session.add(product)
             db.session.commit()
             for category in form.category.data:
