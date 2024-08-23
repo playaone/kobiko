@@ -67,8 +67,16 @@
                                 <div class="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
                                     
                                     <div class="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
-                                        <div class="text-muted small">Price</div>
-                                        <strong>${{ product.price }}</strong>
+                                        <div class="text-muted small">Regular Price</div>
+                                        <strong>&#8358;{{ product.price_regular }}</strong>
+                                    </div>
+                                    <div class="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
+                                        <div class="text-muted small">Lounge Price</div>
+                                        <strong>&#8358;{{ product.price_lounge }}</strong>
+                                    </div>
+                                    <div class="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
+                                        <div class="text-muted small">VIP Price</div>
+                                        <strong>&#8358;{{ product.price_vip }}</strong>
                                     </div>
                                     <div class="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
                                         <form action="{{ url_for('admin.delete_product', product_id=product.id) }}" method="post">
