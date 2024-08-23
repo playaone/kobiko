@@ -66,14 +66,14 @@ class AddProductForm(FlaskForm):
 
 
 class UpdateProductForm(FlaskForm):
-    name = StringField('Title', validators=[DataRequired()])
-    options = StringField('Options', validators=[DataRequired()])
-    category = QuerySelectField('Category', validators=[DataRequired()])
-    price_regular = DecimalField('Regular Price', validators=[DataRequired()])
-    price_vip = DecimalField('VIP Price', validators=[DataRequired()])
-    price_lounge = DecimalField('Lounge Price', validators=[DataRequired()])
+    name = StringField('Title')
+    options = StringField('Options')
+    category = QuerySelectField('Category')
+    price_regular = DecimalField('Regular Price')
+    price_vip = DecimalField('VIP Price')
+    price_lounge = DecimalField('Lounge Price')
     description = TextAreaField('Product Description')
-    image_file = FileField('Images', validators=[FileRequired(),FileAllowed(['.png', '.jpg']), FileSize(max_size=20000000, message='File size too large')])
+    image_file = FileField('Images', validators=[FileAllowed(['.png', '.jpg']), FileSize(max_size=20000000, message='File size too large')])
     submit = SubmitField('Save')
     
             

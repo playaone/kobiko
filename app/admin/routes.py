@@ -241,7 +241,7 @@ def delete_product(product_id):
 
 # ====================================================================================================================================
 
-@admin.route('/admin/product/<int:product_id>/update/')
+@admin.route('/admin/product/<int:product_id>/update/', methods=['POST', 'GET'])
 @login_required
 def update_product(product_id):
     product = Product.query.get(product_id)
