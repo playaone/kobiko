@@ -3,7 +3,7 @@ from wtforms import StringField, DecimalField, TextAreaField, SubmitField, Selec
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, Email
 from wtforms_alchemy import QuerySelectField
 from flask_wtf.file import FileField, FileAllowed, FileRequired, FileSize
-from app.models import User, Category
+from app.models import User
 
 
 class AddUserForm(FlaskForm):

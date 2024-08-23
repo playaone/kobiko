@@ -11,42 +11,38 @@
     {% for category in categories %}
         <div id="{{ category.title.lower().replace(' ', '_') }}">
             <h6 class="text-center">{{ category.title }}</h6>
-            {% for product in products %}
-                {% for key in menu %}
-                    {% if product.id == key.product_id and category.id == key.category_id %}
-                        <div class="card border-0 mb-3">
-                            <div class="row g-0 px-1 align-items-center">
-                                <div class="col-4">
-                                    <img src="{{ url_for('static', filename='images/product/' + product.image) }}" class="img-fluid rounded-3 w-100"
-                                        alt="...">
+            {% for product in category.products %}
+                <div class="card border-0 mb-3">
+                    <div class="row g-0 px-1 align-items-center">
+                        <div class="col-4">
+                            <img src="{{ url_for('static', filename='images/product/' + product.image) }}" class="img-fluid rounded-3 w-100"
+                                alt="...">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body pt-1">
+                                <h5 class="card-title fw-bold my-0 py-0">{{ product.title }}</h5>
+                                <div class="card-text d-flex flex-wrap">
+                                    {% if product.options %}
+                                        {% set options = product.options.split(', ') %}
+                                        {% for option in options %}
+                                            <small class="rounded-pill border border-1 d-inline-block py-1 px-2 mr-1 mb-1">{{option}}</small>
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
-                                <div class="col-8">
-                                    <div class="card-body pt-1">
-                                        <h5 class="card-title fw-bold my-0 py-0">{{ product.title }}</h5>
-                                        <div class="card-text d-flex flex-wrap">
-                                            {% if product.options %}
-                                                {% set options = product.options.split(', ') %}
-                                                {% for option in options %}
-                                                    <small class="rounded-pill border border-1 d-inline-block py-1 px-2 mr-1 mb-1">{{option}}</small>
-                                                {% endfor %}
-                                            {% endif %}
-                                        </div>
-                                        <p class="card-text truncate">{{ product.description | safe}}</p>
-                                        <h5 class="fw-bold text-danger m-0">&#8358;
-                                            {% if active == 'lounge'%}
-                                                {{ product.price_lounge }}
-                                            {% elif active == 'regular'%}
-                                                {{ product.price_regular }}
-                                            {% elif active == 'vip'%}
-                                                {{ product.price_vip }}
-                                            {% endif %}
-                                        </h5>
-                                    </div>
-                                </div>
+                                <p class="card-text col-11 truncate">{{ product.description | safe}}</p>
+                                <h5 class="fw-bold text-danger m-0">&#8358;
+                                    {% if active == 'lounge'%}
+                                        {{ product.price_lounge }}
+                                    {% elif active == 'regular'%}
+                                        {{ product.price_regular }}
+                                    {% elif active == 'vip'%}
+                                        {{ product.price_vip }}
+                                    {% endif %}
+                                </h5>
                             </div>
                         </div>
-                    {% endif %}
-                {% endfor %}
+                    </div>
+                </div>
             {% endfor %}
         </div>
         <hr>

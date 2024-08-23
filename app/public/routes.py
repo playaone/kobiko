@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, flash, url_for
-from app.models import Category, Menu, Room, Product
+from app.models import Category, Room, Product
 
 public = Blueprint('public', __name__)
 
@@ -13,27 +13,24 @@ def index():
 def vip():
     categories = Category.query.all()
     products = Product.query.all()
-    menu = Menu.query.all()
     active = 'vip'
-    return render_template('public/vip.html', title="VIP", categories=categories, menu=menu, products=products, active=active)
+    return render_template('public/vip.html', title="VIP", categories=categories, products=products, active=active)
 
 
 @public.route('/regular/')
 def regular():
     categories = Category.query.all()
     products = Product.query.all()
-    menu = Menu.query.all()
     active = 'regular'
-    return render_template('public/regular.html', title="Regular", categories=categories, menu=menu, products=products, active=active)
+    return render_template('public/regular.html', title="Regular", categories=categories, products=products, active=active)
 
 
 @public.route('/lounge/')
 def lounge():
     categories = Category.query.all()
     products = Product.query.all()
-    menu = Menu.query.all()
     active = 'lounge'
-    return render_template('public/lounge.html', title="Lounge", categories=categories, menu=menu, products=products, active=active)
+    return render_template('public/lounge.html', title="Lounge", categories=categories, products=products, active=active)
 
 
 @public.route('/about')

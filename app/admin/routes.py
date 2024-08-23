@@ -2,7 +2,7 @@ import json, logging
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, login_required, logout_user
 from app import db, bcrypt
-from app.models import Product, Category, User, Room, RoomImage, Menu
+from app.models import Product, Category, User, Room, RoomImage
 from app.admin.forms import AddProductForm, AddCategoryForm, AddUserForm, LoginUserForm, UpdateUserForm, AddRoomForm, UpdateProductForm
 from app.admin.utils import upload_image
 from sqlalchemy import or_
@@ -200,16 +200,11 @@ def add_product():
     if request.method == 'POST':
         if form.validate_on_submit():
             image = upload_image(form.image_file.data)
-            product = Product(title=form.name.data, options=form.options.data, description=form.description.data, price_regular=form.price_regular.data, price_vip=form.price_vip.data, price_lounge=form.price_lounge.data, image=image, user_id=current_user.id, author=current_user)
+            product = Product(title=form.name.data, options=form.options.data, description=form.description.data, price_regular=form.price_regular.data, price_vip=form.price_vip.data, price_lounge=form.price_lounge.data, category_id=form.category.data.id, image=image, user_id=current_user.id, author=current_user)
             db.session.add(product)
-            db.session.commit()
-            menu = Menu(category_id=form.category.id, product_id=product.id)
-            db.session.add(menu)
             db.session.commit()
             flash('Product added!', category='success')
             return redirect(url_for('admin.add_product'))
-        else:
-            flash(f'Form validation failed! category = {form.category.data}, price={form.price.data}, description={form.description.data}, title={form.name.data} image={form.image_file.data}', category='success')
     return render_template('admin/product-add.html', title='Add Product', form=form)
 
 # ==================================================================================================================================
@@ -259,6 +254,7 @@ def update_product(product_id):
         product.title = form.name.data
         product.description = form.description.data
         product.options = form.options.data
+        product.category_id = form.category.data.id
         
         if form.image.data != '':
             image = upload_image(form.image.data)

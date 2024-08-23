@@ -40,7 +40,7 @@ class User(db.Model, UserMixin):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
-    products = db.relationship('Menu', backref='category', cascade = "all,delete", lazy=True)
+    products = db.relationship('Product', backref='category', cascade="all,delete", lazy=True)
     
     def __str__(self):
         return self.title
@@ -53,15 +53,15 @@ class Room(db.Model):
     price = db.Column(db.Float, nullable=False)
     description = db.Column(db.Text, nullable=False)
     discount = db.Column(db.Float, nullable=True)
-    images = db.relationship('RoomImage', cascade = "all,delete", backref='room', lazy=True)
+    images = db.relationship('RoomImage', cascade="all,delete", backref='room', lazy=True)
     
 
 class RoomImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(100))
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
-    
-    
+
+
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
@@ -73,10 +73,5 @@ class Product(db.Model):
     image = db.Column(db.String(100))
     description = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    categories = db.relationship('Menu', backref='product', cascade = "all,delete", lazy=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False, server_default='1')
     
-
-class Menu(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
