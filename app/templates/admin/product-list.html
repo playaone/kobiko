@@ -78,6 +78,12 @@
                                             </button>
                                         </form>
                                     </div>
+                                    <div class="pe-xl-5 pe-md-4 ps-md-0 px-3 mb-2">
+                                        <div class="text-muted small">Edit</div>
+                                        <a href="{{ url_for('admin.update_product', product_id=product.id) }}" class="btn">
+                                            <i class="icofont-pencil text-primary"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

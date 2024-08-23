@@ -203,9 +203,8 @@ def add_product():
             product = Product(title=form.name.data, options=form.options.data, description=form.description.data, price=form.price.data, image=image, user_id=current_user.id, author=current_user)
             db.session.add(product)
             db.session.commit()
-            for category in form.category.data:
-                menu = Menu(category_id=category.id, product_id=product.id)
-                db.session.add(menu)
+            menu = Menu(category_id=form.category.id, product_id=product.id)
+            db.session.add(menu)
             db.session.commit()
             flash('Product added!', category='success')
             return redirect(url_for('admin.add_product'))
@@ -235,22 +234,35 @@ def all_products():
 
 # =================================================================================================================================
 
-@admin.route('/admin/product/delete/<product_id>')
+@admin.route('/admin/product/delete/<product_id>', methods=['POST', 'GET'])
 @login_required
 def delete_product(product_id):
     product = Product.query.get(product_id)
     if product:
         db.session.delete(product)
         db.session.commit()
-        flash(message="Product deleted!", Category="success")
+        flash(message="Product deleted!", category="success")
     return redirect(url_for('admin.all_products'))
 
 # ====================================================================================================================================
 
-@admin.route('/admin/product/<product_id>/update/')
+@admin.route('/admin/product/<int:product_id>/update/')
 @login_required
-def update_product():
-    return render_template('admin/product-edit.html', title='Add Product')
+def update_product(product_id):
+    product = Product.query.get(product_id)
+    form = UpdateProductForm()
+    form.category.query = Category.query.all()
+    if form.validate_on_submit():
+        product.price = form.price.data
+        product.title = form.name.data
+        product.description = form.description.data
+        product.options = form.options.data
+        
+        if form.image.data != '':
+            image = upload_image(form.image.data)
+            if image:
+                product.image = form.image.data
+    return render_template('admin/product-edit.html', title='Edit Product', product=product, form=form)
 
 
 # ================================================================ All Orders ====================================================================

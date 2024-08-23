@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, DecimalField, TextAreaField, SubmitField, SelectField, EmailField, TelField, PasswordField, MultipleFileField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, Email
-from wtforms_alchemy import QuerySelectMultipleField, QuerySelectField
+from wtforms_alchemy import QuerySelectField
 from flask_wtf.file import FileField, FileAllowed, FileRequired, FileSize
 from app.models import User
 
@@ -55,7 +55,7 @@ class AddRoomForm(FlaskForm):
 class AddProductForm(FlaskForm):
     name = StringField('Title', validators=[DataRequired()])
     options = StringField('Options', validators=[DataRequired()])
-    category = QuerySelectMultipleField('Category', validators=[DataRequired()])
+    category = QuerySelectField('Category', validators=[DataRequired()])
     type = SelectField('Product Type', validators=[DataRequired()], choices=['Regular', 'VIP', 'Lounge'])
     price = DecimalField('Product Price', validators=[DataRequired()])
     description = TextAreaField('Product Description')
@@ -66,7 +66,7 @@ class AddProductForm(FlaskForm):
 class UpdateProductForm(FlaskForm):
     name = StringField('Title', validators=[DataRequired()])
     options = StringField('Options', validators=[DataRequired()])
-    category = QuerySelectMultipleField('Category', validators=[DataRequired()])
+    category = QuerySelectField('Category', validators=[DataRequired()])
     type = SelectField('Product Type', validators=[DataRequired()], choices=['Regular', 'VIP', 'Lounge'])
     price = DecimalField('Product Price', validators=[DataRequired()])
     description = TextAreaField('Product Description')

@@ -72,7 +72,7 @@
 
                     <div class="card mb-3">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
-                            <h6 class="m-0 fw-bold">Room Type</h6>
+                            <h6 class="m-0 fw-bold">Spot Type</h6>
                         </div>
                         <div class="card-body">
                             {{ form.type.label(class='form-label') }}
@@ -155,7 +155,7 @@
                                     {{ form.description.label(class='form-label') }}
                                     
                                     {% if form.description.errors %}
-                                    {{ form.description(class='is-invalid form-control', value='form.description.data') }}
+                                    {{ form.description(class='is-invalid form-control', value=form.description.data) }}
                                     <div class="invalid-feedback">
                                         {% for error in form.description.errors %}
                                         <span>{{ error }}</span>
