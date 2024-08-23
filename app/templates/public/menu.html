@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="col-8">
                                     <div class="card-body pt-1">
-                                        <h5 class="card-title my-0 py-0">{{ product.title }}</h5>
+                                        <h5 class="card-title fw-bold my-0 py-0">{{ product.title }}</h5>
                                         <div class="card-text d-flex flex-wrap">
                                             {% if product.options %}
                                                 {% set options = product.options.split(', ') %}
@@ -32,7 +32,15 @@
                                             {% endif %}
                                         </div>
                                         <p class="card-text truncate">{{ product.description | safe}}</p>
-                                        <h5 class="fw-bold m-0">&#8358;{{ product.price }}</h5>
+                                        <h5 class="fw-bold text-danger m-0">&#8358;
+                                            {% if active == 'lounge'%}
+                                                {{ product.price_lounge }}
+                                            {% elif active == 'regular'%}
+                                                {{ product.price_regular }}
+                                            {% elif active == 'vip'%}
+                                                {{ product.price_vip }}
+                                            {% endif %}
+                                        </h5>
                                     </div>
                                 </div>
                             </div>

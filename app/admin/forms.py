@@ -3,7 +3,7 @@ from wtforms import StringField, DecimalField, TextAreaField, SubmitField, Selec
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, Email
 from wtforms_alchemy import QuerySelectField
 from flask_wtf.file import FileField, FileAllowed, FileRequired, FileSize
-from app.models import User
+from app.models import User, Category
 
 
 class AddUserForm(FlaskForm):
@@ -52,12 +52,14 @@ class AddRoomForm(FlaskForm):
     submit = SubmitField('Add')
     
 
+
 class AddProductForm(FlaskForm):
     name = StringField('Title', validators=[DataRequired()])
     options = StringField('Options', validators=[DataRequired()])
     category = QuerySelectField('Category', validators=[DataRequired()])
-    type = SelectField('Product Type', validators=[DataRequired()], choices=['Regular', 'VIP', 'Lounge'])
-    price = DecimalField('Product Price', validators=[DataRequired()])
+    price_regular = DecimalField('Regular Price', validators=[DataRequired()])
+    price_vip = DecimalField('VIP Price', validators=[DataRequired()])
+    price_lounge = DecimalField('Lounge Price', validators=[DataRequired()])
     description = TextAreaField('Product Description')
     image_file = FileField('Images', validators=[FileRequired(), FileSize(max_size=20000000, message='File size too large')])
     submit = SubmitField('Add')
@@ -67,8 +69,9 @@ class UpdateProductForm(FlaskForm):
     name = StringField('Title', validators=[DataRequired()])
     options = StringField('Options', validators=[DataRequired()])
     category = QuerySelectField('Category', validators=[DataRequired()])
-    type = SelectField('Product Type', validators=[DataRequired()], choices=['Regular', 'VIP', 'Lounge'])
-    price = DecimalField('Product Price', validators=[DataRequired()])
+    price_regular = DecimalField('Regular Price', validators=[DataRequired()])
+    price_vip = DecimalField('VIP Price', validators=[DataRequired()])
+    price_lounge = DecimalField('Lounge Price', validators=[DataRequired()])
     description = TextAreaField('Product Description')
     image_file = FileField('Images', validators=[FileRequired(),FileAllowed(['.png', '.jpg']), FileSize(max_size=20000000, message='File size too large')])
     submit = SubmitField('Save')

@@ -12,7 +12,7 @@ def index():
 @public.route('/vip/')
 def vip():
     categories = Category.query.all()
-    products = Product.query.filter_by(type='VIP').all()
+    products = Product.query.all()
     menu = Menu.query.all()
     active = 'vip'
     return render_template('public/vip.html', title="VIP", categories=categories, menu=menu, products=products, active=active)
@@ -21,7 +21,7 @@ def vip():
 @public.route('/regular/')
 def regular():
     categories = Category.query.all()
-    products = Product.query.filter_by(type='Regular').all()
+    products = Product.query.all()
     menu = Menu.query.all()
     active = 'regular'
     return render_template('public/regular.html', title="Regular", categories=categories, menu=menu, products=products, active=active)
@@ -30,7 +30,7 @@ def regular():
 @public.route('/lounge/')
 def lounge():
     categories = Category.query.all()
-    products = Product.query.filter_by(type='Lounge').all()
+    products = Product.query.all()
     menu = Menu.query.all()
     active = 'lounge'
     return render_template('public/lounge.html', title="Lounge", categories=categories, menu=menu, products=products, active=active)

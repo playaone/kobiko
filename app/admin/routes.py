@@ -200,7 +200,7 @@ def add_product():
     if request.method == 'POST':
         if form.validate_on_submit():
             image = upload_image(form.image_file.data)
-            product = Product(title=form.name.data, options=form.options.data, description=form.description.data, price=form.price.data, image=image, user_id=current_user.id, author=current_user)
+            product = Product(title=form.name.data, options=form.options.data, description=form.description.data, price_regular=form.price_regular.data, price_vip=form.price_vip.data, price_lounge=form.price_lounge.data, image=image, user_id=current_user.id, author=current_user)
             db.session.add(product)
             db.session.commit()
             menu = Menu(category_id=form.category.id, product_id=product.id)
@@ -253,7 +253,9 @@ def update_product(product_id):
     form = UpdateProductForm()
     form.category.query = Category.query.all()
     if form.validate_on_submit():
-        product.price = form.price.data
+        product.price_regular = form.price_regular.data
+        product.price_vip = form.price_vip.data
+        product.price_lounge = form.price_lounge.data
         product.title = form.name.data
         product.description = form.description.data
         product.options = form.options.data
