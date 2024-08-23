@@ -1,7 +1,7 @@
 <div class="container-fluid text-black menu-nav py-2">
     <nav class="d-flex flex-nowrap overflow-x-scroll container" id="menu">
         {% for category in categories %}
-        <a href="#{{ category.title.lower().strip() }}" class="nav-links">{{ category.title }}</a>
+        <a href="#{{ category.title.lower().replace(' ', '_') }}" class="nav-links">{{ category.title }}</a>
         {% endfor %}
     </nav>
 </div>
@@ -9,7 +9,7 @@
 <div class="menu-cards container" data-bs-spy="scroll" data-bs-target="#menu" data-bs-offset="0"
     data-bs-smooth-scroll="true">
     {% for category in categories %}
-        <div id="{{ category.title.strip() }}">
+        <div id="{{ category.title.lower().replace(' ', '_') }}">
             <h6 class="text-center">{{ category.title }}</h6>
             {% for product in products %}
                 {% for key in menu %}
