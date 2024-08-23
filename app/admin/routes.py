@@ -245,8 +245,15 @@ def delete_product(product_id):
 @login_required
 def update_product(product_id):
     product = Product.query.get(product_id)
+    
     form = UpdateProductForm()
     form.category.query = Category.query.all()
+    
+    if request.method == 'GET':
+        form.category.default = product.category
+        form.description.default = product.description
+        form.process()
+    
     if form.validate_on_submit():
         product.price_regular = form.price_regular.data
         product.price_vip = form.price_vip.data
@@ -254,12 +261,16 @@ def update_product(product_id):
         product.title = form.name.data
         product.description = form.description.data
         product.options = form.options.data
-        product.category_id = form.category.data.id
         
-        if form.image.data != '':
-            image = upload_image(form.image.data)
+        if form.category.data:
+            product.category_id = form.category.data.id
+        
+        if form.image_file.data:
+            image = upload_image(form.image_file.data)
             if image:
-                product.image = form.image.data
+                product.image = image
+        db.session.commit()
+        flash(message='Product updated', category='success')
     return render_template('admin/product-edit.html', title='Edit Product', product=product, form=form)
 
 

@@ -113,7 +113,7 @@
                             <div class="col-md-12">
                                 {{ form.image_file.label(class='form-label') }}
                                     <small class="d-block text-muted mb-2">Only landscape or square images, 2M max and 2000px max-height.</small>
-                                {{ form.image_file(class='dropify', id="input-file-to-destroy", required='', data_allowed_formats="landscape square", data_max_file_size="2M", data_max_height="2000") }}
+                                {{ form.image_file(class='dropify', id="input-file-to-destroy", data_allowed_formats="landscape square", data_max_file_size="2M", data_max_height="2000") }}
                                 {% if form.image_file.errors %}
                                     <div class="invalid-feedback">
                                         {% for error in form.image_file.errors %}
