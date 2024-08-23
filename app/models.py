@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
     lastname = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(60), nullable=False)
     type = db.Column(db.String(12), nullable=True, default='editor')
-    posts = db.relationship('Product', backref='author', lazy=True)
+    posts = db.relationship('Product', backref='author', cascade = "all,delete", lazy=True)
     
     def get_reset_token(self, expires_sec=1800):
         s = serializer(app.config['SECRET_KEY'], expires_sec)
@@ -40,6 +40,7 @@ class User(db.Model, UserMixin):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
+    products = db.relationship('Menu', backref='category', cascade = "all,delete", lazy=True)
     
     def __str__(self):
         return self.title
@@ -52,7 +53,7 @@ class Room(db.Model):
     price = db.Column(db.Float, nullable=False)
     description = db.Column(db.Text, nullable=False)
     discount = db.Column(db.Float, nullable=True)
-    images = db.relationship('RoomImage', backref='room', lazy=True)
+    images = db.relationship('RoomImage', cascade = "all,delete", backref='room', lazy=True)
     
 
 class RoomImage(db.Model):
@@ -70,6 +71,7 @@ class Product(db.Model):
     image = db.Column(db.String(100))
     description = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    categories = db.relationship('Menu', backref='product', cascade = "all,delete", lazy=True)
     
 
 class Menu(db.Model):
