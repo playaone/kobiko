@@ -73,7 +73,7 @@
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic outlined example">
                                             <a href="{{ url_for('admin.edit_category', category_id=category.id)}}" class="btn btn-outline-secondary"><i class="icofont-edit text-success"></i></a>
-                                            <button type="button" value={{category.id}} class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
+                                            <a href="{{ url_for('admin.delete_category', cat_id=category.id) }}" class="btn btn-outline-secondary"><i class="icofont-ui-delete text-danger"></i></a>
                                         </div>
                                     </td>
                                 </tr>
