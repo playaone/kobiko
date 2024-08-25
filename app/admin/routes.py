@@ -195,7 +195,7 @@ def add_category():
 
 @admin.route('/admin/category/<int:category_id>/edit', methods=['POST', 'GET'])
 @login_required
-def add_category(category_id):
+def edit_category(category_id):
     category = Category.query.get(category_id)
     if not category:
         flash(message='Invalid Category', category='danger')
