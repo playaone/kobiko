@@ -35,6 +35,7 @@ def admin_register():
         
     return render_template('admin/auth-signup.html', title='Add User', form=form)
 
+
 @admin.route('/admin/login/', methods=['POST', 'GET'])
 def admin_login():
     if current_user.is_authenticated:
@@ -188,7 +189,25 @@ def add_category():
         flash('Category added!', category='success')
         return redirect(url_for('admin.add_category'))
     categories = Category.query.all()
-    return render_template('admin/categories-add.html', title='Add Product', form=form, categories=categories)
+    return render_template('admin/categories-add.html', title='Add Category', form=form, categories=categories)
+
+# ======================================================================================================================
+
+@admin.route('/admin/category/<int:category_id>/edit', methods=['POST', 'GET'])
+@login_required
+def add_category(category_id):
+    category = Category.query.get(category_id)
+    if not category:
+        flash(message='Invalid Category', category='danger')
+        return redirect(url_for('admin.add_category'))
+    
+    form = AddCategoryForm()
+    if form.validate_on_submit():        
+        category.title=form.title.data
+        db.session.commit()
+        flash('Category Edited!', category='success')
+        return redirect(url_for('admin.add_category'))
+    return render_template('admin/categories-edit.html', title='Edit Category', form=form, category=category)
 
 # =======================================================================================================================
 

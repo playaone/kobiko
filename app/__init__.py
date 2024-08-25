@@ -17,6 +17,7 @@ loginManager.login_view = 'admin.admin_login'
 loginManager.login_message = 'Please Login'
 loginManager.login_message_category = 'danger'
 
+
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
