@@ -26,9 +26,16 @@ a{
     min-height: 100vh;
 }
 .homepage-container{
-    background: url('../images/bg/landing-page-2.png') center no-repeat;
+    background: url('../images/bg/landing-page-2.png') no-repeat;
+    background-attachment: fixed;
+    background-position: center;
     background-size: cover;
     min-height: 90vh;
+    height: 800px;
+    width: 100%;
+}
+.homepage-menu{
+    margin: 70px 0;
 }
 .logo-div{
     background-color: #B88D0D;

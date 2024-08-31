@@ -61,7 +61,7 @@ class AddProductForm(FlaskForm):
     price_vip = DecimalField('VIP Price', validators=[DataRequired(), NumberRange(min=0.0)])
     price_lounge = DecimalField('Lounge Price', validators=[DataRequired(), NumberRange(min=0.0)])
     description = TextAreaField('Product Description')
-    image_file = FileField('Images', validators=[FileRequired(), FileSize(max_size=20000000, message='File size too large')])
+    image_file = FileField('Images', validators=[FileRequired(), FileAllowed(['png', 'jpg']), FileSize(max_size=20000000, message='File size too large')])
     submit = SubmitField('Add')
 
 
@@ -73,7 +73,7 @@ class UpdateProductForm(FlaskForm):
     price_vip = DecimalField('VIP Price')
     price_lounge = DecimalField('Lounge Price')
     description = TextAreaField('Product Description')
-    image_file = FileField('Images', validators=[FileAllowed(['.png', '.jpg']), FileSize(max_size=20000000, message='File size too large')])
+    image_file = FileField('Images', validators=[FileAllowed(['png', 'jpg']), FileSize(max_size=20000000, message='File size too large')])
     submit = SubmitField('Save')
     
             
