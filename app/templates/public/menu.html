@@ -9,7 +9,7 @@
 <div class="menu-cards container" data-bs-spy="scroll" data-bs-target="#menu" data-bs-offset="0"
     data-bs-smooth-scroll="true">
     {% for category in categories %}
-        <div id="{{ category.title.lower().replace(' ', '_') }}">
+        <div id="{{ category.title.lower().replace(' ', '_') }}" class="col-12">
             <h6 class="text-center">{{ category.title }}</h6>
             {% for product in category.products %}
                 <div class="card border-0 mb-3">
