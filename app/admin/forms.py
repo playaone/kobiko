@@ -12,6 +12,7 @@ class AddUserForm(FlaskForm):
     lastname = StringField('Last Name', validators=[Length(min=2, max=30), DataRequired()])
     email = EmailField('Email Address', validators=[Email(), DataRequired()])
     phone = TelField('Phone Number', validators=[DataRequired()])
+    type = SelectField('User Type', validators=[DataRequired()], choices=['Staff', 'Admin'])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=30)])
     confirm_password = PasswordField('Confirm Password', validators=[EqualTo('password')])
     submit = SubmitField('Add')

@@ -73,7 +73,7 @@
                             <li><a class="ms-link" href="{{ url_for('admin.rooms') }}">All Rooms</a></li>
                         </ul>
                     </li>
-                    
+                    {% if current_user.is_admin %}
                     <li class="collapsed">
                         <a class="m-link" data-bs-toggle="collapse" data-bs-target="#users" href="#">
                             <i class="icofont-users fs-5"></i>
@@ -86,6 +86,7 @@
                             <li><a class="m-link" href="{{url_for('admin.add_user')}}"> <span>Add User</span></a></li>
                         </ul>
                     </li>
+                    {% endif %}
                     <li>
                         <a class="m-link"  href="{{ url_for('admin.logout') }}">
                             <i class="icofont-logout fs-5"></i>
@@ -163,7 +164,7 @@
                                     <p class="mb-0 text-end line-height-sm "><span
                                             class="font-weight-bold">{{ current_user.firstname }}
                                             {{ current_user.lastname }}</span></p>
-                                    <small>Admin Profile</small>
+                                    <small>{{ 'Admin' if current_user.is_admin else 'Staff' }} Profile</small>
                                 </div>
                                 <a class="nav-link dropdown-toggle pulse p-0" href="#" role="button"
                                     data-bs-toggle="dropdown" data-bs-display="static">

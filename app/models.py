@@ -17,7 +17,8 @@ class User(db.Model, UserMixin):
     firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    type = db.Column(db.String(12), nullable=True, default='editor')
+    type = db.Column(db.String(12), nullable=True, default='Staff')
+    is_admin = db.Column(db.Boolean, nullable=False, server_default='0')
     posts = db.relationship('Product', backref='author', cascade = "all,delete", lazy=True)
     
     def get_reset_token(self, expires_sec=1800):
@@ -66,7 +67,6 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     options = db.Column(db.String(50))
-    type = db.Column(db.String(15), nullable=False, server_default='Regular')
     price_regular = db.Column(db.Float, nullable=False, server_default='0')
     price_vip = db.Column(db.Float, nullable=False, server_default='0')
     price_lounge = db.Column(db.Float, nullable=False, server_default='0')

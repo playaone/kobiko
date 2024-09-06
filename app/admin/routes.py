@@ -15,25 +15,23 @@ admin = Blueprint('admin', __name__)
 @login_required
 def home():
     rooms = Room.query.count()
-    regular = Product.query.filter_by(type='Regular').count()
-    lounge = Product.query.filter_by(type='Lounge').count()
-    vip = Product.query.filter_by(type='VIP').count()
-    return render_template('admin/index.html', title="Dashboard", rooms=rooms, regular=regular, lounge=lounge, vip=vip)
+    products = Product.query.count()
+    return render_template('admin/index.html', title="Dashboard", rooms=rooms, products=products)
 
 
-@admin.route('/admin/register/', methods=['POST', 'GET'])
-def admin_register():
-    form = AddUserForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, phone=form.phone.data, firstname=form.firstname.data, lastname=form.lastname.data, password=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        flash(message=f'User Added, password = {form.password.data}', category='success')
-        login_user(user)
-        return redirect(url_for('admin.home'))
+# @admin.route('/admin/register/', methods=['POST', 'GET'])
+# def admin_register():
+#     form = AddUserForm()
+#     if form.validate_on_submit():
+#         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+#         user = User(username=form.username.data, email=form.email.data, phone=form.phone.data, firstname=form.firstname.data, lastname=form.lastname.data, password=hashed_password)
+#         db.session.add(user)
+#         db.session.commit()
+#         flash(message=f'User Added, password = {form.password.data}', category='success')
+#         login_user(user)
+#         return redirect(url_for('admin.home'))
         
-    return render_template('admin/auth-signup.html', title='Add User', form=form)
+#     return render_template('admin/auth-signup.html', title='Add User', form=form)
 
 
 @admin.route('/admin/login/', methods=['POST', 'GET'])
@@ -79,6 +77,8 @@ def add_user():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, type=form.type.data, email=form.email.data, phone=form.phone.data, firstname=form.firstname.data, lastname=form.lastname.data, password=hashed_password)
+        if form.type.data == 'Admin':
+            user.is_admin = True
         db.session.add(user)
         db.session.commit()
         flash(message=f'User Added, password = {form.password.data}', category='success')

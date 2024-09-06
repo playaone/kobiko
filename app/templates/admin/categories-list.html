@@ -18,7 +18,9 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Categorie</th>
+                                    {% if current_user.is_admin %}
                                     <th>Action</th>
+                                    {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
@@ -26,12 +28,18 @@
                                 <tr>
                                     <td><strong>#{{ category.id }}</strong></td>
                                     <td>{{ category.title }}</td>
+                                    {% if current_user.is_admin %}
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                            <a href="{{ url_for('admin.edit_category', category_id=category.id)}}" class="btn btn-outline-secondary"><i class="icofont-edit text-success"></i></a>
-                                            <a href="{{ url_for('admin.delete_category', cat_id=category.id) }}" class="btn btn-outline-secondary"><i class="icofont-ui-delete text-danger"></i></a>
+                                            <a href="{{ url_for('admin.edit_category', category_id=category.id)}}" class="btn btn-outline-secondary">
+                                                <i class="icofont-edit text-success"></i>
+                                            </a>
+                                            <a href="{{ url_for('admin.delete_category', cat_id=category.id) }}" class="btn btn-outline-secondary">
+                                                <i class="icofont-ui-delete text-danger"></i>
+                                            </a>
                                         </div>
                                     </td>
+                                    {% endif %}
                                 </tr>
                                 {% endfor %}
                             </tbody>
