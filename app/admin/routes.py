@@ -164,6 +164,19 @@ def categories():
 # ======================================================================================================================
 
 
+@admin.route('/admin/category/<int:category_id>/products/all/')
+@login_required
+def category_products(category_id):
+    page = request.args.get('page', 1)
+    products = Product.query.filter_by(category_id = category_id).paginate(per_page=20, page=page)
+    category = Category.query.get(category_id)
+    if(category and products):
+        return render_template('admin/category-product-list.html', title=f'{category.title} products', category=category, products=products)
+    return redirect(request.referrer if request.referrer else url_for('admin.index'))
+
+# ======================================================================================================================
+
+
 @admin.route('/admin/category/delete/<int:cat_id>', methods=['POST', 'GET'])
 @login_required
 def delete_category(cat_id):
@@ -242,7 +255,8 @@ def view_product(product_id):
 @admin.route('/admin/products/all/')
 @login_required
 def all_products():
-    products = Product.query.all()
+    page = request.args.get('page', 1)
+    products = Product.query.paginate(per_page=20, page=page)
     categories = Category.query.all()
     return render_template('admin/product-list.html', title='Add Product', categories=categories, products=products)
 
