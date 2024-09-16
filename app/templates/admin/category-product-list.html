@@ -79,7 +79,7 @@
                         <ul class="pagination">
                             {% if products.has_prev %}
                                 <li class="page-item">
-                                    <a class="page-link" href="?page={{ product.prev_num }}">Previous</a>
+                                    <a class="page-link" href="?page={{ products.prev_num }}">Previous</a>
                                 </li>
                             {% endif %}
 
@@ -94,7 +94,7 @@
                             {% endfor %}
                             {% if products.has_next %}
                                 <li class="page-item">
-                                    <a class="page-link" href="?page={{ product.next_num }}">Next</a>
+                                    <a class="page-link" href="?page={{ products.next_num }}">Next</a>
                                 </li>
                             {% endif %}
                         </ul>
