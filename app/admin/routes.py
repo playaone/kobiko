@@ -168,7 +168,7 @@ def categories():
 @login_required
 def category_products(category_id):
     page = request.args.get('page', default=1, type=int)
-    products = Product.query.filter_by(category_id = category_id).paginate(per_page=3, page=page, error_out=False)
+    products = Product.query.filter_by(category_id = category_id).paginate(per_page=20, page=page, error_out=False)
     category = Category.query.get(category_id)
     if(category and products):
         return render_template('admin/category-product-list.html', title=f'{category.title} products', category=category, products=products)
