@@ -167,8 +167,8 @@ def categories():
 @admin.route('/admin/category/<int:category_id>/products/all/')
 @login_required
 def category_products(category_id):
-    page = request.args.get('page', 1)
-    products = Product.query.filter_by(category_id = category_id).paginate(per_page=20, page=page)
+    page = request.args.get('page', default=1, type=int)
+    products = Product.query.filter_by(category_id = category_id).paginate(per_page=3, page=page, error_out=False)
     category = Category.query.get(category_id)
     if(category and products):
         return render_template('admin/category-product-list.html', title=f'{category.title} products', category=category, products=products)
@@ -255,8 +255,8 @@ def view_product(product_id):
 @admin.route('/admin/products/all/')
 @login_required
 def all_products():
-    page = request.args.get('page', 1)
-    products = Product.query.paginate(per_page=20, page=page)
+    page = request.args.get('page', 1, type=int)
+    products = Product.query.paginate(per_page=20, page=page, error_out=False)
     categories = Category.query.all()
     return render_template('admin/product-list.html', title='Add Product', categories=categories, products=products)
 
