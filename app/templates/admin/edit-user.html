@@ -70,7 +70,7 @@
                         {% if form.type.errors %}
                             {{ form.type(class='form-select form-control-lg is-invalid', value=form.type.data) }}
                             <div class="invalid-feedback">
-                                {% for error in form.type.errors %}
+                                {% for error in form.type.errors %} 
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>

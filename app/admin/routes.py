@@ -120,6 +120,7 @@ def edit_user(user_id):
         user.firstname=form.firstname.data
         user.lastname=form.lastname.data
         user.type=form.type.data
+        user.is_admin = True if form.type.data == 'Admin' else False
         
         db.session.commit()
         flash(message=f'User details updated', category='success')
